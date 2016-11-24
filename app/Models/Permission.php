@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Models;
+
+//use Illuminate\Database\Eloquent\Model;
+use Zizaco\Entrust\EntrustPermission;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Permission extends EntrustPermission
+{
+    use SoftDeletes;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'display_name', 'description'
+    ];
+
+    /**
+     * The attributes that are not mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [
+        'id'
+    ];
+
+    /**
+     * The function to mutate name
+     *
+     * @param $value
+     * @return string
+     */
+    public function setNameAttribute($value)
+    {
+        return $this->attributes['name'] = strtolower($value);
+    }
+
+    /**
+     * The function to mutate display_name
+     *
+     * @param $value
+     * @return string
+     */
+    public function setDisplayNameAttribute($value)
+    {
+        return $this->attributes['display_name'] = ucwords(strtolower($value));
+    }
+}
