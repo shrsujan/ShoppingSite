@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Models\Access\User;
+namespace App\Models;
 
-//use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class User extends Model
+class User extends Authenticatable
 {
-    use SoftDeletes, EntrustUserTrait;
+    use SoftDeletes, EntrustUserTrait {
+        SoftDeletes::restore insteadof EntrustUserTrait;
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +18,7 @@ class User extends Model
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'username', 'email', 'password'
+        'name', 'email', 'password'
     ];
 
     /**
@@ -48,24 +49,13 @@ class User extends Model
     ];
 
     /**
-     * The function to mutate first_name
+     * The function to mutate name
      *
      * @param $value
      * @return string
      */
-    public function setFirstNameAttribute($value)
+    public function setNameAttribute($value)
     {
-        return $this->attributes['first_name'] = ucwords(strtolower($value));
-    }
-
-    /**
-     * The function to mutate last_name
-     *
-     * @param $value
-     * @return string
-     */
-    public function setLastNameAttribute($value)
-    {
-        return $this->attributes['last_name'] = ucwords(strtolower($value));
+        return $this->attributes['name'] = ucwords(strtolower($value));
     }
 }

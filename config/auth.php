@@ -104,4 +104,5 @@ return [
         ],
     ],
 
+    'model' => 'App\Models\User',
 ];
